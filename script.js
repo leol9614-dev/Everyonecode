@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // App State
     const state = {
+        theme: localStorage.getItem('lotto_theme') || 'dark',
         mode: 'ai',
         gameCount: 3,
         includeNumbers: [],
@@ -32,12 +33,39 @@ document.addEventListener('DOMContentLoaded', () => {
     init();
 
     function init() {
+        applyTheme(state.theme);
         bindEvents();
         renderHistory();
     }
 
+    function applyTheme(themeName) {
+        document.documentElement.setAttribute('data-theme', themeName);
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.theme === themeName);
+        });
+    }
+
+    function getThemeLabel(theme) {
+        switch (theme) {
+            case 'light': return '라이트';
+            case 'candy': return '솜사탕';
+            case 'dark': default: return '다크';
+        }
+    }
+
     // Event Bindings
     function bindEvents() {
+        // Theme Switcher
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const theme = e.currentTarget.dataset.theme;
+                state.theme = theme;
+                applyTheme(theme);
+                localStorage.setItem('lotto_theme', theme);
+                showToast(`${getThemeLabel(theme)} 모드로 변경되었습니다.`);
+            });
+        });
+
         // Mode Selection
         document.querySelectorAll('input[name="mode"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
