@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 6/45 AI 행운 번호 추천기 | 당첨 확률 UP 로또 번호 생성</title>
+    <meta name="description" content="AI 스마트 분석, 통계 밸런스, 오늘의 운세 기반 최신 로또 6/45 행운의 번호 생성기. 포함/제외 번호 설정 및 생성 이력 관리 지원!">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-background">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-ball-group">
+                    <span class="lotto-ball ball-y sm">7</span>
+                    <span class="lotto-ball ball-r sm">7</span>
+                    <span class="lotto-ball ball-g sm">7</span>
+                </div>
+                <h1 class="logo-title">로또 6/45 <span>AI 행운 번호</span></h1>
+            </div>
+            <p class="subtitle">스마트 알고리즘과 통계 분석으로 조합하는 오늘의 1등 행운 번호</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel: Controls & Options -->
+            <section class="card control-card">
+                <h2 class="card-title"><i class="fa-solid fa-wand-magic-sparkles"></i> 번호 생성 설정</h2>
+                
+                <!-- Recommendation Mode Selection -->
+                <div class="form-group">
+                    <label class="form-label">추천 알고리즘 모드</label>
+                    <div class="mode-grid">
+                        <label class="mode-btn active">
+                            <input type="radio" name="mode" value="ai" checked>
+                            <div class="mode-icon"><i class="fa-solid fa-brain"></i></div>
+                            <div class="mode-info">
+                                <span class="mode-name">AI 스마트 추천</span>
+                                <span class="mode-desc">역대 출현 가중치 & 균형 조합</span>
+                            </div>
+                        </label>
+                        
+                        <label class="mode-btn">
+                            <input type="radio" name="mode" value="random">
+                            <div class="mode-icon"><i class="fa-solid fa-dice"></i></div>
+                            <div class="mode-info">
+                                <span class="mode-name">순수 랜덤</span>
+                                <span class="mode-desc">100% 무작위 6개 extraction</span>
+                            </div>
+                        </label>
+                        
+                        <label class="mode-btn">
+                            <input type="radio" name="mode" value="balanced">
+                            <div class="mode-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                            <div class="mode-info">
+                                <span class="mode-name">통계 밸런스</span>
+                                <span class="mode-desc">홀짝 3:3 & 총합 100~170</span>
+                            </div>
+                        </label>
+                        
+                        <label class="mode-btn">
+                            <input type="radio" name="mode" value="fortune">
+                            <div class="mode-icon"><i class="fa-solid fa-star"></i></div>
+                            <div class="mode-info">
+                                <span class="mode-name">오늘의 운세</span>
+                                <span class="mode-desc">오늘의 날짜 & 행운 시드</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Game Count Selector -->
+                <div class="form-group">
+                    <label class="form-label" for="gameCount">생성할 게임 수</label>
+                    <div class="game-count-selector">
+                        <button type="button" class="btn-count" data-count="1">1 게임</button>
+                        <button type="button" class="btn-count active" data-count="3">3 게임</button>
+                        <button type="button" class="btn-count" data-count="5">5 게임 (1세트)</button>
+                    </div>
+                </div>
+
+                <!-- Advanced Filter Toggle -->
+                <div class="advanced-accordion">
+                    <button type="button" class="accordion-toggle" id="toggleAdvanced">
+                        <span><i class="fa-solid fa-sliders"></i> 고급 조건 설정 (포함/제외 번호)</span>
+                        <i class="fa-solid fa-chevron-down arrow"></i>
+                    </button>
+                    <div class="accordion-content" id="advancedContent">
+                        <div class="filter-group">
+                            <label class="filter-label text-success">
+                                <i class="fa-solid fa-circle-plus"></i> 반드시 포함할 번호 <small>(최대 5개)</small>
+                            </label>
+                            <div class="number-chip-input" id="includeChips">
+                                <input type="number" id="includeInput" min="1" max="45" placeholder="1~45 입력 후 Enter">
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <label class="filter-label text-danger">
+                                <i class="fa-solid fa-circle-minus"></i> 반드시 제외할 번호 <small>(최대 15개)</small>
+                            </label>
+                            <div class="number-chip-input" id="excludeChips">
+                                <input type="number" id="excludeInput" min="1" max="45" placeholder="1~45 입력 후 Enter">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate CTA Button -->
+                <button type="button" id="btnGenerate" class="btn-primary">
+                    <i class="fa-solid fa-bolt"></i> 행운의 로또 번호 생성하기
+                </button>
+            </section>
+
+            <!-- Right Panel: Results & Display -->
+            <section class="card display-card">
+                <div class="results-header">
+                    <h2 class="card-title"><i class="fa-solid fa-clover"></i> 생성된 행운 번호</h2>
+                    <button type="button" id="btnQuickCopy" class="btn-outline-sm" title="모두 복사">
+                        <i class="fa-regular fa-copy"></i> 전체 복사
+                    </button>
+                </div>
+
+                <!-- Results Output Area -->
+                <div class="results-container" id="resultsContainer">
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fa-solid fa-ticket"></i></div>
+                        <p class="empty-text">버튼을 눌러 1등 당첨 기원의 행운 번호를 생성해보세요!</p>
+                    </div>
+                </div>
+
+                <!-- Color Guide -->
+                <div class="lotto-color-guide">
+                    <span class="guide-item"><span class="badge b-yellow"></span> 1~10</span>
+                    <span class="guide-item"><span class="badge b-blue"></span> 11~20</span>
+                    <span class="guide-item"><span class="badge b-red"></span> 21~30</span>
+                    <span class="guide-item"><span class="badge b-gray"></span> 31~40</span>
+                    <span class="guide-item"><span class="badge b-green"></span> 41~45</span>
+                </div>
+            </section>
+
+            <!-- Bottom Section: History & Saved Lists -->
+            <section class="card history-card">
+                <div class="tab-header">
+                    <button type="button" class="tab-btn active" data-tab="history">
+                        <i class="fa-solid fa-clock-rotate-left"></i> 최근 생성 이력
+                    </button>
+                    <button type="button" class="tab-btn" data-tab="favorites">
+                        <i class="fa-solid fa-star"></i> 보관함 (찜한 번호)
+                    </button>
+                    <button type="button" id="btnClearHistory" class="btn-text-danger">
+                        <i class="fa-solid fa-trash-can"></i> 전체 삭제
+                    </button>
+                </div>
+
+                <div class="tab-body" id="tabBody">
+                    <div class="history-list" id="historyList">
+                        <!-- Dynamic History Content -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p><i class="fa-solid fa-circle-info"></i> 동행복권 로또 6/45 추첨일: 매주 토요일 오후 8시 35분 (MBC 생방송)</p>
+            <p class="copyright">© 2026 AI Lotto Number Recommender. 행운을 빕니다!</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
